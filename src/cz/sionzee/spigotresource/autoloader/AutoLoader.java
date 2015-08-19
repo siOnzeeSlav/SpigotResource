@@ -5,8 +5,9 @@
  * Repository: https://github.com/siOnzeeSlav/SpigotResource
  */
 
-package cz.sionzee.spigotresource;
+package cz.sionzee.spigotresource.autoloader;
 
+import cz.sionzee.spigotresource.SpigotPlugin;
 import cz.sionzee.spigotresource.commands.*;
 import cz.sionzee.spigotresource.events.EventEntity;
 import cz.sionzee.spigotresource.events.EventHandler;
@@ -23,6 +24,8 @@ import org.bukkit.plugin.SimplePluginManager;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AutoLoader {
@@ -35,6 +38,18 @@ public class AutoLoader {
         this.spigotPlugin = spigotPlugin;
         this.isDebug = isDebug;
         this.pluginManager = spigotPlugin.getServer().getPluginManager();
+    }
+
+    public void registerService(Object instance) {
+        InjectHandler.register(instance);
+    }
+
+    public void LoadInjectService() {
+        /* ---------------------------- AutoLoader Injects ---------------------------- */
+
+        InjectHandler.load();
+
+        /* ---------------------------- AutoLoader End Injects ---------------------------- */
     }
 
     public void LoadCommandService() {
@@ -58,7 +73,7 @@ public class AutoLoader {
             return;
         }
 
-        for (Map.Entry<String, CommandExecutor> commands : CommandHandler.getAllCommands(spigotPlugin).entrySet()) {
+        for (Map.Entry<String, CommandExecutor> commands : CommandHandler.getAllCommands().entrySet()) {
             final String commandName = commands.getKey();
             final CommandExecutor commandExecutor = commands.getValue();
 
@@ -188,7 +203,7 @@ public class AutoLoader {
     public void LoadEventService() {
          /* ---------------------------- AutoLoader Events ---------------------------- */
 
-        for (Map.Entry<String, EventEntity> listeners : EventHandler.getAllListeners(spigotPlugin).entrySet()) {
+        for (Map.Entry<String, EventEntity> listeners : EventHandler.getAllListeners().entrySet()) {
             pluginManager.registerEvents((Listener) listeners.getValue().getClassInstance(), spigotPlugin);
         }
 
