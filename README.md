@@ -2,5 +2,5 @@
 _Spigot Resource for developers_
 
 ## Info
-* Java: **8**
+* Java: **7**
 * Spigot: **1.8.8**
