@@ -48,4 +48,14 @@ public class Annotations {
         return getAnnotationsByType(method.getDeclaredAnnotations(), annotationType);
     }
 
+    /**
+     * Return [] of annotationType in class
+     * @param field Where filter annotation
+     * @param annotationType Which annotation
+     * @return [] filtered of annotation
+     */
+    public static <Type> Type[] getAnnotationsByType(Field field, Class<?> annotationType) {
+        return getAnnotationsByType(field.getDeclaredAnnotations(), annotationType);
+    }
+
 }
