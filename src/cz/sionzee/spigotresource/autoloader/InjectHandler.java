@@ -53,7 +53,6 @@ public class InjectHandler {
     }
 
     public static void register(Object instance) {
-        System.out.println("Registering service: " + instance.getClass());
         entryMap.put(instance.getClass(), instance);
     }
 }
