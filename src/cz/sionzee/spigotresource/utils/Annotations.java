@@ -10,12 +10,6 @@ package cz.sionzee.spigotresource.utils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 
-/**
- * [SpigotResource]
- * Created by sionzee.
- * All rights reserved to siOnzee.cz 2015.
- * Repository: http://gitlab.bukva.cz/sionzee-works/SpigotResource
- */
 public class Annotations {
 
     private static <Type> Type[] getAnnotationsByType(Annotation[] annotations, Class<?> annotationType) {
