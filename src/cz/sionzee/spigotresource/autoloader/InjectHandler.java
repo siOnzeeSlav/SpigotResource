@@ -52,43 +52,6 @@ public class InjectHandler {
         }
     }
 
-   /*
-
-    public static Map<Class<?>, List<InjectEntry>> getEntries() {
-        HashMap<Class<?>, List<InjectEntry>> map = new HashMap<>();
-        try {
-            for(Class<?> clazz : Utils.getClassesFromNames(Utils.getClassNames())) {
-                Object clazzInstance = null;
-                for(Field field : clazz.getDeclaredFields()) {
-                    Inject[] injects = Annotations.getAnnotationsByType(field, Inject.class);
-                    if(injects.length > 0) {
-                        Inject inject = injects[0];
-                        Object injectInstance = null;
-                        if(hasClassInstance(inject.value())) {
-                            injectInstance = getClassInstance(inject.value());
-                        } else {
-                            Utils.throwAFakeException("Missing registration for service \"" + inject.value().getSimpleName() + "\"");
-                        }
-                        List<InjectEntry> entries = new ArrayList<>();
-                        if(map.containsKey(clazz)) {
-                            entries = map.get(clazz);
-                        }
-
-                        if(clazzInstance == null) {
-                            clazzInstance = clazz.newInstance();
-                        }
-
-                        entries.add(new InjectEntry(field, injectInstance, clazzInstance));
-                        map.put(clazz, entries);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Collections.unmodifiableMap(map);
-    }*/
-
     public static void register(Object instance) {
         System.out.println("Registering service: " + instance.getClass());
         entryMap.put(instance.getClass(), instance);
