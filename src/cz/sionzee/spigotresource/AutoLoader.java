@@ -188,7 +188,7 @@ public class AutoLoader {
     public void LoadEventService() {
          /* ---------------------------- AutoLoader Events ---------------------------- */
 
-        for (Map.Entry<String, EventEntity> listeners : EventHandler.getAllListeners().entrySet()) {
+        for (Map.Entry<String, EventEntity> listeners : EventHandler.getAllListeners(spigotPlugin).entrySet()) {
             pluginManager.registerEvents((Listener) listeners.getValue().getClassInstance(), spigotPlugin);
         }
 
