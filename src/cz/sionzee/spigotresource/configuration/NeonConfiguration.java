@@ -26,6 +26,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 //TODO UNFINISHED CLASS
+//TODO CUSTOM RENDER
 public class NeonConfiguration {
 
     private final Pattern REGEX_PARENT = Pattern.compile("^[\\s]*(.*:)$");
@@ -155,7 +156,9 @@ public class NeonConfiguration {
             FileChannel fileChannel = fOutput.getChannel();
 
             MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_WRITE, 0L, byteCount);
-            Arrays.stream(lines).parallel().forEach(s -> mappedByteBuffer.put(s.getBytes()));
+
+            for(String line : lines)
+                mappedByteBuffer.put(line.getBytes());
 
             CharsetEncoder encoder = Charset.forName("UTF-8").newEncoder();
             ByteBuffer buffer = encoder.encode(mappedByteBuffer.asCharBuffer());

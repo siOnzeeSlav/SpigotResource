@@ -11,10 +11,10 @@ import cz.sionzee.spigotresource.SpigotPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
 
 public class Utils {
 
@@ -28,7 +28,12 @@ public class Utils {
         JarFile file = null;
         try {
             file = new JarFile(new File(SpigotPlugin.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()));
-            classesNames = file.stream().filter(f -> f.getName().endsWith(".class") && !f.getName().contains("$")).map(ZipEntry::getName).collect(Collectors.toList());
+            List<JarEntry> entries = Collections.list(file.entries());
+            for(JarEntry entry : entries) {
+                if(entry.getName().endsWith(".class") && !entry.getName().contains("$")) {
+                    classesNames.add(entry.getName());
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,14 +47,14 @@ public class Utils {
      * @return
      */
     public static List<Class<?>> getClassesFromNames(List<String> names) {
-        List<Class<?>> classes = names.stream().map(f -> {
+        List<Class<?>> classes = new ArrayList<>();
+        for(String name : names) {
             try {
-                return Class.forName(f.replaceAll("/", ".").replaceAll(".class", ""));
+                classes.add(Class.forName(name.replace("/", ".").replace(".class", "")));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            return null;
-        }).collect(Collectors.toList());
+        }
         return classes;
     }
 

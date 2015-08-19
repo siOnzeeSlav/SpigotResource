@@ -23,14 +23,17 @@ public class EventHandler {
      */
     public static HashMap<String, EventEntity> getAllListeners() {
         HashMap<String, EventEntity> listeners = new HashMap<>();
-        Utils.getClassesFromNames(Utils.getClassNames()).stream().filter(Listener.class::isAssignableFrom).forEach(aClass1 -> {
-                    try {
-                        listeners.put(aClass1.getSimpleName(), new EventEntity(aClass1.newInstance(), null));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
+        for(Class<?> clazz : Utils.getClassesFromNames(Utils.getClassNames())) {
+            if(Listener.class.isAssignableFrom(clazz)) {
+                try {
+                    listeners.put(clazz.getSimpleName(), new EventEntity(clazz.newInstance(), null));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-        );
+            }
+        }
+
         return listeners;
     }
 
@@ -41,15 +44,18 @@ public class EventHandler {
      */
     public static HashMap<String, EventEntity> getAllEvents() {
         HashMap<String, EventEntity> events = new HashMap<>();
-        Utils.getClassesFromNames(Utils.getClassNames()).stream().filter(Event.class::isAssignableFrom).forEach(aClass1 -> {
-                    try {
-                        Object instance = aClass1.newInstance();
-                        events.put(aClass1.getSimpleName(), new EventEntity(instance, (Event) instance));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+
+        for(Class<?> clazz : Utils.getClassesFromNames(Utils.getClassNames())) {
+            if(Event.class.isAssignableFrom(clazz)) {
+                try {
+                    Object instance = clazz.newInstance();
+                    events.put(clazz.getSimpleName(), new EventEntity(instance, (Event) instance));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-        );
+            }
+        }
+
         return events;
     }
 }

@@ -59,8 +59,8 @@ public class AutoLoader {
         }
 
         for (Map.Entry<String, CommandExecutor> commands : CommandHandler.getAllCommands(spigotPlugin).entrySet()) {
-            String commandName = commands.getKey();
-            CommandExecutor commandExecutor = commands.getValue();
+            final String commandName = commands.getKey();
+            final CommandExecutor commandExecutor = commands.getValue();
 
             commandMap.register(commandName, new Command(commandName, commandExecutor.getClassCommand().description(), commandExecutor.getClassCommand().usage(), Arrays.asList(commandExecutor.getClassCommand().alias())) {
                 @Override
@@ -115,7 +115,7 @@ public class AutoLoader {
                                 }
 
                                 boolean isArray = commandEntry.getMethod().getParameterTypes()[0].isArray();
-                                if (commandEntry.getMethod().getParameterCount() != args.length - lastIndex && !isArray) {
+                                if (commandEntry.getMethod().getParameterTypes().length != args.length - lastIndex && !isArray) {
 
                                     if (commandEntry.getSubCommand().usage().length() == 0 && isDebug) {
                                         Utils.throwAFakeException("Please fill @SubCommand usage at SubCommand " + parent + ".");
@@ -128,7 +128,7 @@ public class AutoLoader {
 
                                 if (!isArray) {
                                     Object[] correctArgs = new Object[args.length - (lastIndex)];
-                                    for (int i = 0; i < commandEntry.getMethod().getParameterCount(); i++) {
+                                    for (int i = 0; i < commandEntry.getMethod().getParameterTypes().length; i++) {
                                         Class<?> parameterType = commandEntry.getMethod().getParameterTypes()[i];
                                         if (parameterType == int.class) {
                                             if (Utils.isClearNumber(args[lastIndex + i])) {
