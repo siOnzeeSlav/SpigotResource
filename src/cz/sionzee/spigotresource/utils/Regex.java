@@ -25,6 +25,22 @@ public class Regex {
         return matcher.group(group);
     }
 
+    public static String replace(String string, Pattern pattern, String to) {
+        Matcher matcher = pattern.matcher(string);
+        matcher.find();
+        return string.replace(matcher.group(), to);
+    }
+
+    public static String[] getGroups(String string, Pattern pattern) {
+        Matcher matcher = pattern.matcher(string);
+        matcher.find();
+        String[] groups = new String[matcher.groupCount()];
+        for(int i = 0; i < matcher.groupCount(); i++) {
+            groups[i] = matcher.group(i + 1);
+        }
+        return groups;
+    }
+
     public static boolean isMatch(String string, Pattern pattern) {
         Matcher mat = pattern.matcher(string);
         return mat.find();
