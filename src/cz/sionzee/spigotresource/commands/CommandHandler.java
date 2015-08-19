@@ -8,6 +8,8 @@
 package cz.sionzee.spigotresource.commands;
 
 import cz.sionzee.spigotresource.SpigotPlugin;
+import cz.sionzee.spigotresource.autoloader.Inject;
+import cz.sionzee.spigotresource.autoloader.InjectHandler;
 import cz.sionzee.spigotresource.utils.Annotations;
 import cz.sionzee.spigotresource.utils.Utils;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,41 +18,22 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class CommandHandler {
-    public static TreeMap<String, CommandExecutor> getAllCommands(SpigotPlugin spigotPlugin) {
+    public static Map<String, CommandExecutor> getAllCommands() {
         TreeMap<String, CommandExecutor> commands = new TreeMap<>();
         for(Class<?> clazz : Utils.getClassesFromNames(Utils.getClassNames())) {
             Command[] commandsArray = Annotations.getAnnotationsByType(clazz, Command.class);
             if(commandsArray.length > 0) {
                 if(ICommand.class.isAssignableFrom(clazz) && clazz != ICommand.class) {
                     Command command = commandsArray[0];
-                    Object classInstance = null;
-                    if(clazz.getDeclaredConstructors().length > 0)
-                        for (Constructor c : clazz.getDeclaredConstructors())
-                            if (c.getParameterTypes().length > 0)
-                                if (JavaPlugin.class.isAssignableFrom(c.getParameterTypes()[0]))
-                                    try {
-                                        classInstance = c.newInstance(spigotPlugin);
-                                        break;
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-
-                    try {
-                        if (classInstance == null)
-                            classInstance = clazz.newInstance();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
+                    Object classInstance = InjectHandler.getInstance(clazz);
                     LinkedHashMap<String, CommandEntry> subCommands = new LinkedHashMap<>();
 
-                    if(classInstance != null)
+                    if(classInstance != null) {
                         subCommands.putAll(getCommandsWithSubCommands(classInstance, command.value()));
+                    }
 
                     commands.put(command.value(), new CommandExecutor(command, classInstance, subCommands));
                 }
@@ -58,7 +41,7 @@ public class CommandHandler {
             }
         }
 
-        return commands;
+        return Collections.unmodifiableMap(commands);
     }
 
     private static TreeMap<String, CommandEntry> getCommandsWithSubCommands(Object instance, String path) {
@@ -72,10 +55,12 @@ public class CommandHandler {
             for(Class<?> clazz : clazzs) {
                 if(ISubCommand.class.isAssignableFrom(clazz)) {
                     Object innerInstance = null;
+
                     try {
                         if (clazz.getConstructors().length == 0)
                             if (Utils.throwAFakeException("Class [" + clazz.getSimpleName() + "] isn't public."))
                                 break;
+
 
                         innerInstance = clazz.getConstructors()[0].newInstance(instance);
                     } catch (Exception e) {
