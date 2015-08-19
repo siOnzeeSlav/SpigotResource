@@ -49,7 +49,8 @@ public class CommandHandler {
 
                     LinkedHashMap<String, CommandEntry> subCommands = new LinkedHashMap<>();
 
-                    subCommands.putAll(getCommandsWithSubCommands(classInstance, command.value()));
+                    if(classInstance != null)
+                        subCommands.putAll(getCommandsWithSubCommands(classInstance, command.value()));
 
                     commands.put(command.value(), new CommandExecutor(command, classInstance, subCommands));
                 }
