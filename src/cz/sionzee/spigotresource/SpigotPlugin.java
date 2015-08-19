@@ -7,6 +7,7 @@
 
 package cz.sionzee.spigotresource;
 
+import cz.sionzee.spigotresource.autoloader.AutoLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class SpigotPlugin extends JavaPlugin implements ISpigotPlugin {
@@ -17,6 +18,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements ISpigotPlugin {
     public void onEnable() {
         autoLoader.LoadEventService();
         onPluginEnable();
+        autoLoader.LoadInjectService();
     }
 
     @Override
@@ -30,4 +32,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements ISpigotPlugin {
         onPluginLoad();
     }
 
+    protected final AutoLoader getAutoLoader() {
+        return autoLoader;
+    }
 }
