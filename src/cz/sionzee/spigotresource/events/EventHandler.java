@@ -8,6 +8,7 @@
 package cz.sionzee.spigotresource.events;
 
 import cz.sionzee.spigotresource.SpigotPlugin;
+import cz.sionzee.spigotresource.autoloader.Inject;
 import cz.sionzee.spigotresource.autoloader.InjectHandler;
 import cz.sionzee.spigotresource.utils.Utils;
 import org.bukkit.event.Event;
@@ -27,12 +28,12 @@ public class EventHandler {
      *
      * @return HashMap<String, EventEntity> (getEvent() == null)
      */
-    public static Map<String, EventEntity> getAllListeners() {
+    public static Map<String, EventEntity> getAllListeners(InjectHandler injectHandler) {
         HashMap<String, EventEntity> listeners = new HashMap<>();
 
         for(Class<?> clazz : Utils.getClassesFromNames(Utils.getClassNames())) {
             if (Listener.class.isAssignableFrom(clazz)) {
-                Object instance = InjectHandler.getInstance(clazz);
+                Object instance = injectHandler.getInstance(clazz);
                 listeners.put(clazz.getSimpleName(), new EventEntity(instance, null));
             }
         }
@@ -44,12 +45,12 @@ public class EventHandler {
      *
      * @return HashMap<String, EventEntity>
      */
-    public static Map<String, EventEntity> getAllEvents() {
+    public static Map<String, EventEntity> getAllEvents(InjectHandler injectHandler) {
         HashMap<String, EventEntity> events = new HashMap<>();
 
         for(Class<?> clazz : Utils.getClassesFromNames(Utils.getClassNames())) {
             if(Event.class.isAssignableFrom(clazz)) {
-                Object instance = InjectHandler.getInstance(clazz);
+                Object instance = injectHandler.getInstance(clazz);
                 events.put(clazz.getSimpleName(), new EventEntity(instance, (Event) instance));
             }
         }

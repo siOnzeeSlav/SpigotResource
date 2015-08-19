@@ -33,21 +33,23 @@ public class AutoLoader {
     private SpigotPlugin spigotPlugin;
     private PluginManager pluginManager;
     private boolean isDebug = false;
+    private InjectHandler injectHandler;
 
     public AutoLoader(SpigotPlugin spigotPlugin, boolean isDebug) {
         this.spigotPlugin = spigotPlugin;
         this.isDebug = isDebug;
         this.pluginManager = spigotPlugin.getServer().getPluginManager();
+        this.injectHandler = new InjectHandler();
     }
 
     public void registerService(Object instance) {
-        InjectHandler.register(instance);
+        injectHandler.register(instance);
     }
 
     public void LoadInjectService() {
         /* ---------------------------- AutoLoader Injects ---------------------------- */
 
-        InjectHandler.load();
+        injectHandler.load();
 
         /* ---------------------------- AutoLoader End Injects ---------------------------- */
     }
@@ -73,7 +75,7 @@ public class AutoLoader {
             return;
         }
 
-        for (Map.Entry<String, CommandExecutor> commands : CommandHandler.getAllCommands().entrySet()) {
+        for (Map.Entry<String, CommandExecutor> commands : CommandHandler.getAllCommands(injectHandler).entrySet()) {
             final String commandName = commands.getKey();
             final CommandExecutor commandExecutor = commands.getValue();
 
@@ -203,7 +205,7 @@ public class AutoLoader {
     public void LoadEventService() {
          /* ---------------------------- AutoLoader Events ---------------------------- */
 
-        for (Map.Entry<String, EventEntity> listeners : EventHandler.getAllListeners().entrySet()) {
+        for (Map.Entry<String, EventEntity> listeners : EventHandler.getAllListeners(injectHandler).entrySet()) {
             pluginManager.registerEvents((Listener) listeners.getValue().getClassInstance(), spigotPlugin);
         }
 

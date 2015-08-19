@@ -16,7 +16,7 @@ import java.util.*;
 public class InjectHandler {
     private static HashMap<Class<?>, Object> entryMap = new HashMap<>();
 
-    public static Object getInstance(Class<?> clazz) {
+    public Object getInstance(Class<?> clazz) {
         if(entryMap.containsKey(clazz))
             return entryMap.get(clazz);
 
@@ -28,7 +28,7 @@ public class InjectHandler {
         return entryMap.get(clazz);
     }
 
-    public static void load() {
+    public void load() {
         for(Class<?> clazz : Utils.getClassesFromNames(Utils.getClassNames())) {
             for (Field field : clazz.getDeclaredFields()) {
                 Inject[] injects = Annotations.getAnnotationsByType(field, Inject.class);
@@ -52,7 +52,7 @@ public class InjectHandler {
         }
     }
 
-    public static void register(Object instance) {
+    public void register(Object instance) {
         entryMap.put(instance.getClass(), instance);
     }
 }

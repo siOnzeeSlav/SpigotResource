@@ -21,14 +21,14 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public class CommandHandler {
-    public static Map<String, CommandExecutor> getAllCommands() {
+    public static Map<String, CommandExecutor> getAllCommands(InjectHandler injectHandler) {
         TreeMap<String, CommandExecutor> commands = new TreeMap<>();
         for(Class<?> clazz : Utils.getClassesFromNames(Utils.getClassNames())) {
             Command[] commandsArray = Annotations.getAnnotationsByType(clazz, Command.class);
             if(commandsArray.length > 0) {
                 if(ICommand.class.isAssignableFrom(clazz) && clazz != ICommand.class) {
                     Command command = commandsArray[0];
-                    Object classInstance = InjectHandler.getInstance(clazz);
+                    Object classInstance = injectHandler.getInstance(clazz);
                     LinkedHashMap<String, CommandEntry> subCommands = new LinkedHashMap<>();
 
                     if(classInstance != null) {
