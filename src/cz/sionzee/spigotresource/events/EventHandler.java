@@ -39,22 +39,4 @@ public class EventHandler {
         }
         return Collections.unmodifiableMap(listeners);
     }
-
-    /**
-     * Custom registered events
-     *
-     * @return HashMap<String, EventEntity>
-     */
-    public static Map<String, EventEntity> getAllEvents(InjectHandler injectHandler) {
-        HashMap<String, EventEntity> events = new HashMap<>();
-
-        for(Class<?> clazz : Utils.getClassesFromNames(Utils.getClassNames())) {
-            if(Event.class.isAssignableFrom(clazz)) {
-                Object instance = injectHandler.getInstance(clazz);
-                events.put(clazz.getSimpleName(), new EventEntity(instance, (Event) instance));
-            }
-        }
-
-        return Collections.unmodifiableMap(events);
-    }
 }
