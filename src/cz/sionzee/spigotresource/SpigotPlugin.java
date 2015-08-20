@@ -16,7 +16,7 @@ public abstract class SpigotPlugin extends JavaPlugin implements ISpigotPlugin {
 
     @Override
     public void onEnable() {
-        autoLoader.LoadEventService();
+        autoLoader.LoadListenerService();
         onPluginEnable();
         autoLoader.LoadInjectService();
     }
