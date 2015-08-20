@@ -42,6 +42,19 @@ public class AutoLoader {
         this.injectHandler = new InjectHandler();
     }
 
+    /**
+     * Register many services for Inject
+     * @param instances Instances for classes
+     */
+    public void registerServices(Object... instances) {
+        for(Object instance : instances)
+            registerService(instance);
+    }
+
+    /**
+     * Register service for Inject
+     * @param instance Instance for class
+     */
     public void registerService(Object instance) {
         injectHandler.register(instance);
     }
@@ -54,6 +67,9 @@ public class AutoLoader {
         /* ---------------------------- AutoLoader End Injects ---------------------------- */
     }
 
+    /**
+     * Enable Command Feature
+     */
     public void LoadCommandService() {
         /* ---------------------------- AutoLoader Commands ---------------------------- */
 
@@ -202,7 +218,10 @@ public class AutoLoader {
         /* ---------------------------- AutoLoader End Commands ---------------------------- */
     }
 
-    public void LoadEventService() {
+    /**
+     * Enable Listener Feature
+     */
+    public void LoadListenerService() {
          /* ---------------------------- AutoLoader Events ---------------------------- */
 
         for (Map.Entry<String, EventEntity> listeners : EventHandler.getAllListeners(injectHandler).entrySet()) {
