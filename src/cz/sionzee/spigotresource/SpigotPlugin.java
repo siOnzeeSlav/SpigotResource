@@ -28,10 +28,15 @@ public abstract class SpigotPlugin extends JavaPlugin implements ISpigotPlugin {
 
     @Override
     public void onLoad() {
+        autoLoader.registerService(this);
         autoLoader.LoadCommandService();
         onPluginLoad();
     }
 
+    /**
+     * Return instance of autoloader
+     * @return autoLoader
+     */
     protected final AutoLoader getAutoLoader() {
         return autoLoader;
     }
