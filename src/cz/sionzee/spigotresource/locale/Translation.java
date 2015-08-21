@@ -17,7 +17,7 @@ public class Translation {
     private static HashMap<String, String> map = new HashMap<>();
 
     public static String get(Object instance, String key, Object... args) {
-        return Formater.format(instance, map.get(key), args);
+        return Formater._format(instance, map.get(key), args);
     }
 
 }
