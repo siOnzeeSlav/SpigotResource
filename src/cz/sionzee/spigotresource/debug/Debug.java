@@ -15,23 +15,23 @@ import java.util.logging.Level;
 public class Debug {
 
     /**
-     * Log via {@link Formater#format(Object, String, Object...)}
+     * Log via {@link Formater#_format(Object, String, Object...)}
      * @param instanceOfClass Object
      * @param format String
      * @param args Object...
      */
     public static void log(Object instanceOfClass, String format, Object... args) {
-        Bukkit.getLogger().log(Level.INFO, Formater.format(instanceOfClass, format, args));
+        Bukkit.getLogger().log(Level.INFO, Formater._format(instanceOfClass, format, args));
     }
 
     /**
-     * Log error via {@link Formater#format(Object, String, Object...)}
+     * Log error via {@link Formater#_format(Object, String, Object...)}
      * @param instanceOfClass Object
      * @param format String
      * @param args Object...
      */
     public static void error(Object instanceOfClass, String format, Object... args) {
-        Bukkit.getLogger().log(Level.SEVERE, Formater.format(instanceOfClass, format, args));
+        Bukkit.getLogger().log(Level.SEVERE, Formater._format(instanceOfClass, format, args));
     }
 
     /**
@@ -44,5 +44,4 @@ public class Debug {
     public static void error(Exception exception, Object instance, String format, Object... args) {
         Bukkit.getLogger().log(Level.SEVERE, Formater.format(exception, instance, format, args));
     }
-
 }
