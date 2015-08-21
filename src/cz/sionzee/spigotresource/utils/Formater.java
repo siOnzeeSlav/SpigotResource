@@ -31,7 +31,7 @@ public class Formater {
         return rslt;
     }
 
-    public static String format(Object instance, String format, Object... args) {
+    public static String _format(Object instance, String format, Object... args) {
         String rslt = ChatColor.translateAlternateColorCodes('&', format);
         for (int i = 0; i < args.length; i++) {
             if (rslt.contains("{" + i + "}")) {
