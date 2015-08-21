@@ -40,10 +40,12 @@ public class Array {
      * @return (The ,.- Word)
      */
     public static String join(String[] array, String join) {
-        String result = "";
+        StringBuilder builder = new StringBuilder();
         for(int i = 0; i < array.length; i++) {
-            result += array[i] + (i == array.length? "": join);
+            builder.append(array[i]);
+            if(i != array.length - 1)
+                builder.append(join);
         }
-        return result;
+        return builder.toString();
     }
 }
