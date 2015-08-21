@@ -25,9 +25,9 @@ import java.nio.charset.CharsetEncoder;
 import java.util.*;
 import java.util.regex.Pattern;
 
-//TODO UNFINISHED CLASS
+//TODO UNFINISHED CLASS - ABSTRACT TO AVOID USAGE
 //TODO CUSTOM RENDER
-public class NeonConfiguration {
+public abstract class NeonConfiguration {
 
     private final Pattern REGEX_PARENT = Pattern.compile("^[\\s]*(.*:)$");
     private final Pattern REGEX_COMMENT = Pattern.compile("((/\\*)([^\\*/]|\n)*(\\*/)|^[\\s\n]$|^$)");
