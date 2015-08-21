@@ -28,12 +28,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AutoLoader {
+public final class AutoLoader {
 
     private SpigotPlugin spigotPlugin;
     private PluginManager pluginManager;
-    private boolean isDebug = false;
     private InjectHandler injectHandler;
+    private boolean isDebug = false;
 
     public AutoLoader(SpigotPlugin spigotPlugin, boolean isDebug) {
         this.spigotPlugin = spigotPlugin;
@@ -154,7 +154,7 @@ public class AutoLoader {
                                         Utils.throwAFakeException("Please fill @SubCommand usage at SubCommand " + parent + ".");
                                     } else {
                                         String message = commandEntry.getSubCommand().usage().replace("{cmd}", parent.replace(".", " ").substring(0, parent.length() - 1));
-                                        commandSender.sendMessage(Formater.format(this, message));
+                                        commandSender.sendMessage(Formater._format(this, message));
                                     }
                                     return false;
                                 }
@@ -167,12 +167,12 @@ public class AutoLoader {
                                             if (Utils.isClearNumber(args[lastIndex + i])) {
                                                 correctArgs[i] = Integer.parseInt(args[lastIndex + i]);
                                             } else {
-                                                commandSender.sendMessage(Formater.format(this, Messages.INCORRECT_PARAMETER_NUMBER, args[lastIndex + i]));
+                                                commandSender.sendMessage(Formater._format(this, Messages.INCORRECT_PARAMETER_NUMBER, args[lastIndex + i]));
                                                 return false;
                                             }
                                         } else if (parameterType == String.class) {
                                             if (args[lastIndex + i].getClass() != String.class || Utils.isClearNumber(args[lastIndex + i])) {
-                                                commandSender.sendMessage(Formater.format(this, Messages.INCORRECT_PARAMETER_STRING, args[lastIndex + i]));
+                                                commandSender.sendMessage(Formater._format(this, Messages.INCORRECT_PARAMETER_STRING, args[lastIndex + i]));
                                                 return false;
                                             }
                                             correctArgs[i] = args[lastIndex + i];
